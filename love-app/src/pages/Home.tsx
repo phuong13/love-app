@@ -1,83 +1,98 @@
-import { Button, Card, Typography, Space, Row, Col } from 'antd';
-import { HeartOutlined, RocketOutlined, StarOutlined } from '@ant-design/icons';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Heart, Rocket, Star, LogOut } from 'lucide-react';
 
-const { Title } = Typography;
+interface HomeProps {
+  onLogout: () => void;
+}
 
-const Home = () => {
+const Home = ({ onLogout }: HomeProps) => {
   return (
     <div className="bg-slate-100 min-h-screen w-full p-8 md:p-12">
-      <Space direction="vertical" size="large" className="w-full max-w-full">
+      <div className="flex justify-end mb-4">
+        <Button 
+          variant="outline"
+          onClick={onLogout}
+          className="hover:border-pink-400 hover:text-pink-500"
+        >
+          <LogOut className="w-4 h-4 mr-2" />
+          Đăng xuất
+        </Button>
+      </div>
+      
+      <div className="space-y-8 w-full">
         <div className="text-center pt-8">
-          <Title level={1}>
-            <HeartOutlined style={{ color: '#22c55e' }} /> Welcome to Love App
-          </Title>
+          <h1 className="text-5xl font-bold flex items-center justify-center gap-3 mb-4">
+            <Heart className="w-12 h-12 text-green-500" fill="currentColor" />
+            <span>Welcome to Love App</span>
+          </h1>
           <p className="text-lg text-slate-600">
-            Built with React, TypeScript, Vite, Tailwind CSS, and Ant Design 5
+            Built with React, TypeScript, Vite, Tailwind CSS, and Shadcn/ui
           </p>
         </div>
 
-        <Row gutter={[16, 16]}>
-          <Col xs={24} sm={12} md={8}>
-            <Card
-              hoverable
-              className="text-center"
-              cover={
-                <div className="p-10 text-5xl bg-blue-50">
-                  <RocketOutlined className="text-blue-500" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          <Card className="hover:shadow-lg transition-shadow duration-300">
+            <CardHeader className="text-center">
+              <div className="flex justify-center mb-4">
+                <div className="p-6 bg-blue-50 rounded-lg">
+                  <Rocket className="w-12 h-12 text-blue-500" />
                 </div>
-              }
-            >
-              <Card.Meta
-                title="Fast Development"
-                description="Vite provides lightning-fast HMR and build times for optimal development experience."
-              />
-            </Card>
-          </Col>
+              </div>
+              <CardTitle>Fast Development</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <CardDescription className="text-center">
+                Vite provides lightning-fast HMR and build times for optimal development experience.
+              </CardDescription>
+            </CardContent>
+          </Card>
 
-          <Col xs={24} sm={12} md={8}>
-            <Card
-              hoverable
-              className="text-center"
-              cover={
-                <div className="p-10 text-5xl bg-yellow-50">
-                  <StarOutlined className="text-yellow-500" />
+          <Card className="hover:shadow-lg transition-shadow duration-300">
+            <CardHeader className="text-center">
+              <div className="flex justify-center mb-4">
+                <div className="p-6 bg-yellow-50 rounded-lg">
+                  <Star className="w-12 h-12 text-yellow-500" />
                 </div>
-              }
-            >
-              <Card.Meta
-                title="Beautiful UI"
-                description="Ant Design 5 provides enterprise-class UI components with modern design."
-              />
-            </Card>
-          </Col>
+              </div>
+              <CardTitle>Beautiful UI</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <CardDescription className="text-center">
+                Shadcn/ui provides beautiful, accessible components built with Radix UI and Tailwind CSS.
+              </CardDescription>
+            </CardContent>
+          </Card>
 
-          <Col xs={24} sm={12} md={8}>
-            <Card
-              hoverable
-              className="text-center"
-              cover={
-                <div className="p-10 text-5xl bg-green-50">
-                  <HeartOutlined className="text-green-500" />
+          <Card className="hover:shadow-lg transition-shadow duration-300">
+            <CardHeader className="text-center">
+              <div className="flex justify-center mb-4">
+                <div className="p-6 bg-green-50 rounded-lg">
+                  <Heart className="w-12 h-12 text-green-500" fill="currentColor" />
                 </div>
-              }
-            >
-              <Card.Meta
-                title="Type Safe"
-                description="TypeScript ensures type safety and better developer experience."
-              />
-            </Card>
-          </Col>
-        </Row>
+              </div>
+              <CardTitle>Type Safe</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <CardDescription className="text-center">
+                TypeScript ensures type safety and better developer experience throughout the project.
+              </CardDescription>
+            </CardContent>
+          </Card>
+        </div>
 
-        <div className="text-center mt-8">
-          <Space>
-            <Button type="primary" size="large" icon={<RocketOutlined />}>
+        <div className="text-center mt-12">
+          <div className="flex gap-4 justify-center">
+            <Button size="lg" className="bg-slate-900 hover:bg-slate-800">
+              <Rocket className="w-5 h-5 mr-2" />
               Get Started
             </Button>
-            <Button size="large">Learn More</Button>
-          </Space>
+            <Button size="lg" variant="outline">
+              Learn More
+            </Button>
+          </div>
         </div>
-      </Space>
+      </div>
     </div>
   );
 };
