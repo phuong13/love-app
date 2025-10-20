@@ -1,40 +1,37 @@
 # 🚀 Deploy lên GitHub Pages
 
-## Bước 1: Push code lên GitHub
-```bash
-git add .
-git commit -m "Setup for GitHub Pages deployment"
-git push origin dev
-```
+## ✅ Deploy đã thành công!
 
-## Bước 2: Deploy
-```bash
-npm run deploy
-```
+Branch `gh-pages` đã được tạo. Bây giờ làm theo các bước sau:
 
-Lệnh này sẽ:
-1. Build project (tạo thư mục `dist`)
-2. Deploy thư mục `dist` lên branch `gh-pages`
+## Bước tiếp theo: Cấu hình GitHub Pages
 
-## Bước 3: Cấu hình GitHub Pages
-1. Vào repository trên GitHub: https://github.com/phuong13/love-app
-2. Click **Settings** → **Pages**
-3. Chọn:
-   - Source: **Deploy from a branch**
-   - Branch: **gh-pages** / **root**
-4. Click **Save**
+1. Vào repository: **https://github.com/phuong13/love-app**
+2. Click **Settings** (góc phải trên)
+3. Scroll xuống phần **Pages** (menu bên trái)
+4. Trong phần **Source**, chọn:
+   - Branch: **gh-pages**
+   - Folder: **/ (root)**
+5. Click **Save**
+6. Đợi 2-3 phút
 
-## Bước 4: Truy cập website
-Sau vài phút, truy cập:
+## 🌐 Truy cập website
 ```
 https://phuong13.github.io/love-app/
 ```
 
-## Lưu ý:
-- Mỗi lần có thay đổi, chạy `npm run deploy` để cập nhật
-- Base URL đã được cấu hình trong `vite.config.ts`: `base: '/love-app/'`
+## 🔄 Update website (khi có thay đổi)
+```bash
+npm run deploy
+```
 
-## 💡 Tips:
-- Kiểm tra deploy status tại: Repository → Actions
-- Nếu lỗi 404, đảm bảo branch `gh-pages` đã được tạo
-- Website sẽ tự động update sau mỗi lần deploy
+## ⚠️ Nếu vẫn lỗi 404:
+1. Đảm bảo đã chọn branch `gh-pages` trong Settings → Pages
+2. Đợi thêm 5-10 phút (GitHub Pages cần thời gian deploy)
+3. Clear cache trình duyệt (Ctrl + Shift + R)
+4. Kiểm tra tại: Repository → Settings → Pages → xem link website
+
+## 📝 Lưu ý:
+- Base URL: `base: '/love-app/'` (đã config trong vite.config.ts)
+- Mỗi lần deploy sẽ tự động build và push lên branch `gh-pages`
+- Kiểm tra deploy status: Repository → Actions (nếu có)

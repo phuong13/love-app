@@ -1,98 +1,286 @@
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Heart, Rocket, Star, LogOut } from 'lucide-react';
+import { Heart, LogOut, Calendar, Sparkles, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ThemeToggle } from '@/components/ThemeToggle';
+import { ImageModal } from '@/components/ImageModal';
+import { useEffect, useState, useRef } from 'react';
 
+// Import ảnh từ assets
+import img1 from '@/assets/1.jpg';
+import img2 from '@/assets/2.jpg';
+import img3 from '@/assets/3.jpg';
+import img4 from '@/assets/4.jpg';
+import img5 from '@/assets/5.jpg';
+import img6 from '@/assets/6.jpg';
+import img7 from '@/assets/7.jpg';
+import img8 from '@/assets/8.jpg';
 interface HomeProps {
   onLogout: () => void;
 }
 
+interface Milestone {
+  title: string;
+  date: string;
+  description: string;
+  image: string;
+  image_modal: string; // Ảnh hiển thị trong modal
+  color: string;
+}
+
 const Home = ({ onLogout }: HomeProps) => {
+  const [floatingHearts, setFloatingHearts] = useState<Array<{ id: number; left: string; delay: string; duration: string }>>([]);
+  const [selectedMilestone, setSelectedMilestone] = useState<Milestone | null>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // Tạo trái tim bay ngẫu nhiên
+    const hearts = Array.from({ length: 15 }, (_, i) => ({
+      id: i,
+      left: `${Math.random() * 100}%`,
+      delay: `${Math.random() * 5}s`,
+      duration: `${8 + Math.random() * 4}s`
+    }));
+    setFloatingHearts(hearts);
+  }, []);
+
+  const scrollLeft = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: -520, behavior: 'smooth' });
+    }
+  };
+
+  const scrollRight = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: 520, behavior: 'smooth' });
+    }
+  };
+
+  const milestones: Milestone[] = [
+    {
+      title: "Tin nhắn đầu💘",
+      date: "07/08/2025",
+      description: "Đây là ngày đầu tiên anh nhắn em cũng là ngày sinh nhật của anh và có lẽ em là món quà đặc biệt nhất mà anh nhận được vào hôm đó.",
+      image: "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=800&h=600&fit=crop",
+      image_modal: img1,
+      color: "from-pink-500 to-rose-500"
+    },
+    {
+      title: "Ngày đầu tiên gặp nhau",
+      date: "17/08/2025",
+      description: "Sau 10 ngày thì chúng ta xem phim lần đầu và gặp nhau lần đầu.",
+      image: "https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?w=800&h=600&fit=crop",
+      image_modal: img2,
+      color: "from-pink-500 to-rose-500"
+    },
+    {
+      title: "Lần đầu giận dỗi của yenlinh🥶️",
+      date: "31/08/2025",
+      description: "Có thể em không nhớ nhiều về lần đó, nhưng với anh, đó là lần đầu tiên em giận dỗi anh. Anh xin lỗi ẻm ( mặc dù lỗi xuất phát từ em ^.^) ",
+      image: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=800&h=600&fit=crop",
+      image_modal: img3,
+      color: "from-rose-500 to-red-500"
+    },
+    {
+      title: "Buổi giảng hòa",
+      date: "03/09/2025",
+      description: "Bữa đó trời mưa lắm, 2 mình đi ăn hủ tiếu và lại đi xem phim với nhau. Anh nhớ mãi cảm giác được em ôm dưới cơn mưa, ẻm còn hôn anh nữa!!",
+      image: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800&h=600&fit=crop",
+      image_modal: img4,
+      color: "from-red-500 to-pink-600"
+    },
+    {
+      title: "Lời tỏ tình💝",
+      date: "07/09/2025",
+      description: "Anh đã dũng cảm nói ra những gì trong lòng. 'Em có muốn làm người yêu anh nha?'. Và hôm ấy em đồng ý hehee",
+      image: "https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?w=800&h=600&fit=crop",
+      image_modal: img5,
+      color: "from-pink-600 to-rose-600"
+    },
+    {
+      title: "Lần đầu chụp photobooth😘",
+      date: "13/09/2025",
+      description: "Lần đầu được chụp photobooth cũng vui lắm á",
+      image: "https://images.unsplash.com/photo-1514315384763-ba401779410f?w=800&h=600&fit=crop",
+      image_modal: img6,
+      color: "from-rose-600 to-red-600"
+    },
+    {
+      title: "Chia tay tạm thời🥴️",
+      date: "07/10/2025",
+      description: "Anh không muốn nhắc đến dụ này đâu nhưng mà nó cũng là cột mốc nên cũng phải đưa vào hehe",
+      image: "https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?w=800&h=600&fit=crop",
+      image_modal: img7,
+      color: "from-red-600 to-pink-700"
+    },
+    {
+      title: "Lần hẹn hò tiếp theo👩‍❤️‍👩",
+      date: "20/10/2025",
+      description: "Sau nhiều lần làm hoà thì cuối cùng cũng có ngày hôm nay ạ. Iu em nhiều lắm luôn ạ",
+      image: "https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?w=800&h=600&fit=crop",
+      image_modal: img8,
+      color: "from-red-600 to-pink-700"
+    },
+    {
+      title: "Câu chuyện của chúng ta sẽ tiếp tục...",
+      date: "Future",
+      description: "...",
+      image: "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=800&h=600&fit=crop",
+      image_modal: img1,
+      color: "from-red-600 to-pink-700"
+    }
+  ];
+
   return (
-    <div className="bg-slate-100 min-h-screen w-full p-8 md:p-12">
-      <div className="flex justify-end mb-4">
-        <Button 
-          variant="outline"
-          onClick={onLogout}
-          className="hover:border-pink-400 hover:text-pink-500"
-        >
-          <LogOut className="w-4 h-4 mr-2" />
-          Đăng xuất
-        </Button>
+    <div className="relative bg-gradient-to-br from-pink-50 via-rose-50 to-red-50 dark:from-slate-900 dark:via-pink-900/20 dark:to-slate-900 h-screen overflow-hidden flex flex-col">
+      {/* Floating Hearts Background */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden">
+        {floatingHearts.map((heart) => (
+          <Heart
+            key={heart.id}
+            className="absolute text-pink-300/40 dark:text-pink-500/20 animate-float-up"
+            style={{
+              left: heart.left,
+              animationDelay: heart.delay,
+              animationDuration: heart.duration,
+              width: `${20 + Math.random() * 20}px`,
+              height: `${20 + Math.random() * 20}px`
+            }}
+            fill="currentColor"
+          />
+        ))}
       </div>
-      
-      <div className="space-y-8 w-full">
-        <div className="text-center pt-8">
-          <h1 className="text-5xl font-bold flex items-center justify-center gap-3 mb-4">
-            <Heart className="w-12 h-12 text-green-500" fill="currentColor" />
-            <span>Welcome to Love App</span>
-          </h1>
-          <p className="text-lg text-slate-600">
-            Built with React, TypeScript, Vite, Tailwind CSS, and Shadcn/ui
+
+      {/* Header */}
+      <div className="relative z-10 flex justify-between items-center p-3 md:p-6">
+        <div className="flex items-center gap-2">
+          <Heart className="w-6 h-6 md:w-8 md:h-8 text-red-500 animate-pulse" fill="currentColor" />
+          <span className="text-base md:text-xl font-bold text-slate-800 dark:text-slate-100">Love Story</span>
+        </div>
+        <div className="flex gap-1 md:gap-2">
+          <ThemeToggle />
+          <Button
+            variant="outline"
+            onClick={onLogout}
+            className="hover:border-pink-400 hover:text-pink-500 dark:bg-slate-800 dark:text-slate-200 text-xs md:text-sm px-2 md:px-4"
+          >
+            <LogOut className="w-3 h-3 md:w-4 md:h-4 md:mr-2" />
+            <span className="hidden md:inline">Đăng xuất</span>
+          </Button>
+        </div>
+      </div>
+
+      {/* Main Title */}
+      <div className="relative z-10 text-center flex-shrink-0 px-4 mb-2 md:mb-0">
+        <div className="flex items-center justify-center gap-2 flex-col">
+          <div className="flex items-center justify-center gap-1 md:gap-2">
+            <Sparkles className="w-5 h-5 md:w-8 md:h-8 text-yellow-500 animate-pulse" />
+            <h5 className="text-lg md:text-4xl font-bold bg-gradient-to-r from-pink-600 via-rose-600 to-red-600 dark:from-pink-400 dark:via-rose-400 dark:to-red-400 bg-clip-text text-transparent">
+               我们的爱情之旅 ❤️
+            </h5>
+            <Sparkles className="w-5 h-5 md:w-8 md:h-8 text-yellow-500 animate-pulse" />
+          </div>
+          <p className="text-sm md:text-lg text-slate-700 dark:text-slate-300 mb-1">
+            <Calendar className="inline w-3 h-3 md:w-4 md:h-4 mr-1 md:mr-2" />
+            07/08/2025 - Forever
           </p>
         </div>
+      </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          <Card className="hover:shadow-lg transition-shadow duration-300">
-            <CardHeader className="text-center">
-              <div className="flex justify-center mb-4">
-                <div className="p-6 bg-blue-50 rounded-lg">
-                  <Rocket className="w-12 h-12 text-blue-500" />
+
+      {/* Timeline với scroll ngang */}
+      <div className="relative z-10 px-2 md:px-8 flex-1 flex items-start md:items-center overflow-hidden pt-2 md:pt-0">
+        {/* Navigation Buttons */}
+        <button
+          onClick={scrollLeft}
+          className="hidden md:flex absolute left-2 top-1/2 -translate-y-1/2 z-20 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white rounded-full p-3 shadow-2xl transition-all duration-300 hover:scale-110 items-center justify-center"
+          aria-label="Previous"
+        >
+          <ChevronLeft className="w-6 h-6" />
+        </button>
+
+        <button
+          onClick={scrollRight}
+          className="hidden md:flex absolute right-2 top-1/2 -translate-y-1/2 z-20 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white rounded-full p-3 shadow-2xl transition-all duration-300 hover:scale-110 items-center justify-center"
+          aria-label="Next"
+        >
+          <ChevronRight className="w-6 h-6" />
+        </button>
+
+        <div
+          ref={scrollContainerRef}
+          className="flex gap-4 md:gap-8 overflow-x-auto snap-x snap-mandatory scrollbar-hide w-full h-full items-center py-4 px-2">
+          {milestones.map((milestone, index) => (
+            <div
+              key={index}
+              className="flex-shrink-0 w-[85vw] md:w-[480px] snap-center h-[500px] md:h-[450px]"
+              onClick={() => setSelectedMilestone(milestone)}
+            >
+              <div className="relative group h-full cursor-pointer">
+                {/* Card */}
+                <div className="bg-white dark:bg-slate-800 rounded-2xl md:rounded-3xl shadow-2xl overflow-hidden transform transition-all duration-500 hover:scale-105 hover:shadow-pink-500/50 h-full flex flex-col">
+                  {/* Image */}
+                  <div className="relative h-56 md:h-56 overflow-hidden flex-shrink-0">
+                    <img
+                      src={milestone.image}
+                      alt={milestone.title}
+                      className="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-110"
+                    />
+                    <div className={`absolute inset-0 bg-gradient-to-t ${milestone.color} opacity-40`}></div>
+
+                    {/* Date Badge */}
+                    <div className="absolute top-2 right-2 md:top-4 md:right-4 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm px-2 py-1 md:px-4 md:py-2 rounded-full shadow-lg">
+                      <p className="text-xs md:text-sm font-semibold text-slate-800 dark:text-slate-100 flex items-center gap-1 md:gap-2">
+                        <Calendar className="w-3 h-3 md:w-4 md:h-4" />
+                        {milestone.date}
+                      </p>
+                    </div>
+
+                    {/* Number Badge */}
+                    <div className="absolute bottom-2 left-2 md:bottom-4 md:left-4 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center shadow-lg">
+                      <span className="text-xl md:text-2xl font-bold bg-gradient-to-r from-pink-600 to-rose-600 bg-clip-text text-transparent">
+                        {index + 1}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Content */}
+                  <div className="p-4 md:p-6 flex-1 flex flex-col">
+                    <h3 className="text-lg md:text-2xl font-bold text-slate-800 dark:text-slate-100 mb-2 md:mb-3 flex items-center gap-2">
+                      <Heart className="w-5 h-5 md:w-6 md:h-6 text-red-500" fill="currentColor" />
+                      {milestone.title}
+                    </h3>
+                    <p className="text-sm md:text-base text-slate-600 dark:text-slate-300 leading-relaxed line-clamp-4">
+                      {milestone.description}
+                    </p>
+                  </div>
                 </div>
-              </div>
-              <CardTitle>Fast Development</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CardDescription className="text-center">
-                Vite provides lightning-fast HMR and build times for optimal development experience.
-              </CardDescription>
-            </CardContent>
-          </Card>
 
-          <Card className="hover:shadow-lg transition-shadow duration-300">
-            <CardHeader className="text-center">
-              <div className="flex justify-center mb-4">
-                <div className="p-6 bg-yellow-50 rounded-lg">
-                  <Star className="w-12 h-12 text-yellow-500" />
-                </div>
+                {/* Decorative hearts */}
+                <Heart
+                  className="absolute -top-4 -left-4 w-8 h-8 text-pink-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-bounce"
+                  fill="currentColor"
+                />
+                <Heart
+                  className="absolute -bottom-4 -right-4 w-8 h-8 text-red-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-bounce"
+                  fill="currentColor"
+                  style={{ animationDelay: '0.2s' }}
+                />
               </div>
-              <CardTitle>Beautiful UI</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CardDescription className="text-center">
-                Shadcn/ui provides beautiful, accessible components built with Radix UI and Tailwind CSS.
-              </CardDescription>
-            </CardContent>
-          </Card>
-
-          <Card className="hover:shadow-lg transition-shadow duration-300">
-            <CardHeader className="text-center">
-              <div className="flex justify-center mb-4">
-                <div className="p-6 bg-green-50 rounded-lg">
-                  <Heart className="w-12 h-12 text-green-500" fill="currentColor" />
-                </div>
-              </div>
-              <CardTitle>Type Safe</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CardDescription className="text-center">
-                TypeScript ensures type safety and better developer experience throughout the project.
-              </CardDescription>
-            </CardContent>
-          </Card>
-        </div>
-
-        <div className="text-center mt-12">
-          <div className="flex gap-4 justify-center">
-            <Button size="lg" className="bg-slate-900 hover:bg-slate-800">
-              <Rocket className="w-5 h-5 mr-2" />
-              Get Started
-            </Button>
-            <Button size="lg" variant="outline">
-              Learn More
-            </Button>
-          </div>
+            </div>
+          ))}
         </div>
       </div>
+
+      {/* Image Modal */}
+      {selectedMilestone && (
+        <ImageModal
+          isOpen={!!selectedMilestone}
+          onClose={() => setSelectedMilestone(null)}
+          image={selectedMilestone.image_modal}
+          title={selectedMilestone.title}
+          date={selectedMilestone.date}
+          description={selectedMilestone.description}
+        />
+      )}
     </div>
   );
 };

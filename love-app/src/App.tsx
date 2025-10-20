@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import './App.css'
 import Home from './pages/Home'
 import Login from './pages/Login'
+import { ThemeProvider } from './contexts/ThemeContext'
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -25,9 +26,9 @@ function App() {
   }
 
   return (
-    <>
+    <ThemeProvider>
       {isLoggedIn ? <Home onLogout={handleLogout} /> : <Login onLoginSuccess={handleLoginSuccess} />}
-    </>
+    </ThemeProvider>
   )
 }
 
