@@ -7,12 +7,13 @@ import { useEffect, useState, useRef } from 'react';
 // Import ảnh từ assets
 import img1 from '@/assets/1.jpg';
 import img2 from '@/assets/2.jpg';
-import img3 from '@/assets/3.jpg';
+// import img3 from '@/assets/3.jpg';
 import img4 from '@/assets/4.jpg';
 import img5 from '@/assets/5.jpg';
 import img6 from '@/assets/6.jpg';
 import img7 from '@/assets/7.jpg';
 import img8 from '@/assets/8.jpg';
+import img9 from '@/assets/9.jpg';
 interface HomeProps {
   onLogout: () => void;
 }
@@ -66,7 +67,7 @@ const Home = ({ onLogout }: HomeProps) => {
     {
       title: "Ngày đầu tiên gặp nhau",
       date: "17/08/2025",
-      description: "Sau 10 ngày thì chúng ta xem phim lần đầu và gặp nhau lần đầu.",
+      description: "Sau 10 ngày thì chúng ta xem phim lần đầu và gặp nhau lần đầu. Dù là cuộc hẹn vội nhưng đó là bước ngoặc quan trọng, bữa đó anh có ấn tượng với ẻm lắm nhaaa.",
       image: "https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?w=800&h=600&fit=crop",
       image_modal: img2,
       color: "from-pink-500 to-rose-500"
@@ -76,7 +77,7 @@ const Home = ({ onLogout }: HomeProps) => {
       date: "31/08/2025",
       description: "Có thể em không nhớ nhiều về lần đó, nhưng với anh, đó là lần đầu tiên em giận dỗi anh. Anh xin lỗi ẻm ( mặc dù lỗi xuất phát từ em ^.^) ",
       image: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=800&h=600&fit=crop",
-      image_modal: img3,
+      image_modal: img5,
       color: "from-rose-500 to-red-500"
     },
     {
@@ -90,9 +91,9 @@ const Home = ({ onLogout }: HomeProps) => {
     {
       title: "Lời tỏ tình💝",
       date: "07/09/2025",
-      description: "Anh đã dũng cảm nói ra những gì trong lòng. 'Em có muốn làm người yêu anh nha?'. Và hôm ấy em đồng ý hehee",
+      description: "Anh đã dũng cảm nói ra những gì trong lòng. 'Em có làm người yêu anh nha?'. Và hôm ấy em đồng ý hehee, bông hoa đầu tiên anh tặng em là bông hoa sen ấy:))",
       image: "https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?w=800&h=600&fit=crop",
-      image_modal: img5,
+      image_modal: img9,
       color: "from-pink-600 to-rose-600"
     },
     {
@@ -107,7 +108,7 @@ const Home = ({ onLogout }: HomeProps) => {
       title: "Chia tay tạm thời🥴️",
       date: "07/10/2025",
       description: "Anh không muốn nhắc đến dụ này đâu nhưng mà nó cũng là cột mốc nên cũng phải đưa vào hehe",
-      image: "https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?w=800&h=600&fit=crop",
+      image: img9,
       image_modal: img7,
       color: "from-red-600 to-pink-700"
     },
@@ -222,7 +223,7 @@ const Home = ({ onLogout }: HomeProps) => {
                     <img
                       src={milestone.image}
                       alt={milestone.title}
-                      className="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-110"
+                      className="w-full h-full object-cover transform transition-transform duration-500"
                     />
                     <div className={`absolute inset-0 bg-gradient-to-t ${milestone.color} opacity-40`}></div>
 
