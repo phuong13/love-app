@@ -148,7 +148,7 @@ const MemoryPhoto = () => {
                                     <div className="relative h-full overflow-hidden">
                                         <img
                                             src={photo.src}
-                                            alt={`Memory ${photo.id}`}
+                                            alt={`Memory`}
                                             className="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-110"
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
