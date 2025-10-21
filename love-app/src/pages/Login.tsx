@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
@@ -10,6 +11,7 @@ interface LoginProps {
 }
 
 const Login = ({ onLoginSuccess }: LoginProps) => {
+  const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -22,6 +24,7 @@ const Login = ({ onLoginSuccess }: LoginProps) => {
     setTimeout(() => {
       if (username === 'mylove' && password === '07082025') {
         onLoginSuccess();
+        navigate('/');
       } else {
         setError('❌ Sai tên đăng nhập hoặc mật khẩu!');
       }
