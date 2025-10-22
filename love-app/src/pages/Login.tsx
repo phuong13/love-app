@@ -53,7 +53,7 @@ const Login = ({ onLoginSuccess }: LoginProps) => {
         <Heart className="absolute text-pink-400 dark:text-pink-700 opacity-20 w-20 h-20 md:w-28 md:h-28 animate-pulse" style={{ bottom: '25%', right: '10%', animationDelay: '1.5s' }} fill="currentColor" />
       </div>
 
-      <Card className="w-full max-w-md shadow-2xl border-2 border-pink-200 dark:border-pink-800 relative z-10 bg-white/95 dark:bg-slate-800/95">
+      <Card className="w-full max-w-md shadow-2xl border-2 rounded-2xl border-pink-200 dark:border-pink-800 relative z-10 bg-white/95 dark:bg-slate-800/95">
         <CardContent className="p-4 md:p-8">
           <div className="text-center mb-6 md:mb-8">
             <div className="flex justify-center mb-3 md:mb-4">
@@ -64,7 +64,7 @@ const Login = ({ onLoginSuccess }: LoginProps) => {
             <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-pink-500 to-rose-500 bg-clip-text text-transparent">
              My Love
             </h1>
-            <p className="text-sm md:text-base text-slate-600 dark:text-slate-400 mt-2">Đăng nhập để xem tình yêu của chúng ta 💕</p>
+            <p className="text-base md:text-lg mt-2">😸😽😻🙀😼😺</p>
           </div>
 
           <div className="space-y-3 md:space-y-4">

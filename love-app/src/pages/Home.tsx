@@ -1,29 +1,20 @@
-import { Button } from '@/components/ui/button';
-import { Heart, LogOut, Calendar, Sparkles, ChevronLeft, ChevronRight, Camera } from 'lucide-react';
-import { ThemeToggle } from '@/components/ThemeToggle';
 import { ImageModal } from '@/components/ImageModal';
-import { useEffect, useState, useRef } from 'react';
+import { ThemeToggle } from '@/components/ThemeToggle';
+import { Button } from '@/components/ui/button';
+import { Calendar, Camera, Cat, ChevronLeft, ChevronRight, Heart, LogOut } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // Import ảnh từ assets
 import img1 from '@/assets/1.jpg';
+import img12 from '@/assets/12.jpg';
+import img13 from '@/assets/13.jpg';
 import img2 from '@/assets/2.jpg';
 import img4 from '@/assets/4.jpg';
 import img5 from '@/assets/5.jpg';
 import img6 from '@/assets/6.jpg';
 import img7 from '@/assets/7.jpg';
-import img8 from '@/assets/8.jpg';
 import img9 from '@/assets/9.jpg';
-import img10 from '@/assets/10.jpg';
-import img11 from '@/assets/11.jpg';
-import img12 from '@/assets/12.jpg';
-import img13 from '@/assets/13.jpg';
-import img14 from '@/assets/14.jpg';
-import img15 from '@/assets/15.jpg';
-import img16 from '@/assets/16.jpg';
-import img17 from '@/assets/17.jpg';
-import img18 from '@/assets/18.jpg';
-import img19 from '@/assets/19.jpg';
 
 interface HomeProps {
   onLogout: () => void;
@@ -40,7 +31,7 @@ interface Milestone {
 
 const Home = ({ onLogout }: HomeProps) => {
   const navigate = useNavigate();
-  const [floatingHearts, setFloatingHearts] = useState<Array<{ id: number; left: string; delay: string; duration: string }>>([]);
+  const [floatingHearts, setFloatingHearts] = useState<Array<{ id: number; left: string; delay: string; duration: string; isCat: boolean }>>([]);
   const [selectedMilestone, setSelectedMilestone] = useState<Milestone | null>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
@@ -49,13 +40,23 @@ const Home = ({ onLogout }: HomeProps) => {
     navigate('/login');
   };
 
+  // Tính số ngày từ 07/08/2025 đến hiện tại
+  const calculateDaysTogether = () => {
+    const startDate = new Date('2025-08-07');
+    const today = new Date();
+    const diffTime = Math.abs(today.getTime() - startDate.getTime());
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays;
+  };
+
   useEffect(() => {
-    // Tạo trái tim bay ngẫu nhiên
-    const hearts = Array.from({ length: 15 }, (_, i) => ({
+    // Tạo trái tim và mèo bay xen kẽ ngẫu nhiên
+    const hearts = Array.from({ length: 20 }, (_, i) => ({
       id: i,
       left: `${Math.random() * 100}%`,
       delay: `${Math.random() * 5}s`,
-      duration: `${8 + Math.random() * 4}s`
+      duration: `${8 + Math.random() * 4}s`,
+      isCat: i % 2 === 0
     }));
     setFloatingHearts(hearts);
   }, []);
@@ -149,22 +150,29 @@ const Home = ({ onLogout }: HomeProps) => {
 
   return (
     <div className="relative bg-gradient-to-br from-pink-50 via-rose-50 to-red-50 dark:from-slate-900 dark:via-pink-900/20 dark:to-slate-900 h-screen overflow-hidden flex flex-col">
-      {/* Floating Hearts Background */}
+      {/* Floating Hearts & Cats Background - Xen kẽ */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        {floatingHearts.map((heart) => (
-          <Heart
-            key={heart.id}
-            className="absolute text-pink-300/40 dark:text-pink-500/20 animate-float-up"
-            style={{
-              left: heart.left,
-              animationDelay: heart.delay,
-              animationDuration: heart.duration,
-              width: `${20 + Math.random() * 20}px`,
-              height: `${20 + Math.random() * 20}px`
-            }}
-            fill="currentColor"
-          />
-        ))}
+        {floatingHearts.map((item) => {
+          const Icon = item.isCat ? Cat : Heart;
+          return (
+            <Icon
+              key={item.id}
+              className={`absolute animate-float-up ${
+                item.isCat 
+                  ? 'text-orange-300/40 dark:text-orange-500/20' 
+                  : 'text-pink-300/40 dark:text-pink-500/20'
+              }`}
+              style={{
+                left: item.left,
+                animationDelay: item.delay,
+                animationDuration: item.duration,
+                width: `${20 + Math.random() * 20}px`,
+                height: `${20 + Math.random() * 20}px`
+              }}
+              fill="currentColor"
+            />
+          );
+        })}
       </div>
 
       {/* Header */}
@@ -190,15 +198,15 @@ const Home = ({ onLogout }: HomeProps) => {
       <div className="relative z-10 text-center flex-shrink-0 px-4 mb-2 md:mb-0">
         <div className="flex items-center justify-center gap-2 flex-col">
           <div className="flex items-center justify-center gap-1 md:gap-2">
-            <Sparkles className="w-5 h-5 md:w-8 md:h-8 text-yellow-500 animate-pulse" />
+            <Cat className="w-5 h-5 md:w-8 md:h-8 text-yellow-500 animate-pulse" />
             <h5 className="text-lg md:text-4xl font-bold bg-gradient-to-r from-pink-600 via-rose-600 to-red-600 dark:from-pink-400 dark:via-rose-400 dark:to-red-400 bg-clip-text text-transparent">
                我们的爱情之旅 ❤️
             </h5>
-            <Sparkles className="w-5 h-5 md:w-8 md:h-8 text-yellow-500 animate-pulse" />
+            <Cat className="w-5 h-5 md:w-8 md:h-8 text-yellow-500 animate-pulse" />
           </div>
           <p className="text-sm md:text-lg text-slate-700 dark:text-slate-300 mb-1">
             <Calendar className="inline w-3 h-3 md:w-4 md:h-4 mr-1 md:mr-2" />
-            07/08/2025 - Forever
+            07/08/2025 - Forever ( {calculateDaysTogether()} days )
           </p>
         </div>
       </div>

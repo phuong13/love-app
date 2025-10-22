@@ -1,28 +1,10 @@
 import { useNavigate } from 'react-router-dom';
-import { useRef } from 'react';
-import { Heart, ArrowLeft, Sparkles, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useRef, useMemo } from 'react';
+import { Heart, ArrowLeft, Sparkles, ChevronLeft, ChevronRight, Cat } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ThemeToggle } from '@/components/ThemeToggle';
 
-// Import tất cả ảnh từ assets
-import img1 from '@/assets/1.jpg';
-import img2 from '@/assets/2.jpg';
-import img4 from '@/assets/4.jpg';
-import img5 from '@/assets/5.jpg';
-import img6 from '@/assets/6.jpg';
-import img7 from '@/assets/7.jpg';
-import img8 from '@/assets/8.jpg';
-import img9 from '@/assets/9.jpg';
-import img10 from '@/assets/10.jpg';
-import img11 from '@/assets/11.jpg';
-import img12 from '@/assets/12.jpg';
-import img13 from '@/assets/13.jpg';
-import img14 from '@/assets/14.jpg';
-import img15 from '@/assets/15.jpg';
-import img16 from '@/assets/16.jpg';
-import img17 from '@/assets/17.jpg';
-import img18 from '@/assets/18.jpg';
-import img19 from '@/assets/19.jpg';
+const imageModules = import.meta.glob('@/assets/*.jpg', { eager: true, import: 'default' });
 
 interface Photo {
     src: string;
@@ -44,45 +26,41 @@ const MemoryPhoto = () => {
         }
     };
 
-    const photos: Photo[] = [
-        { src: img1 },
-        { src: img2 },
-        { src: img4 },
-        { src: img5 },
-        { src: img6 },
-        { src: img7 },
-        { src: img8 },
-        { src: img9 },
-        { src: img16 },
-        { src: img17 },
-        { src: img18 },
-        { src: img19 },
-        { src: img10 },
-        { src: img11 },
-        { src: img12 },
-        { src: img13 },
-        { src: img14 },
-        { src: img15 },
-    ];
+    // Random 1 lần duy nhất, không đổi khi re-render
+    const photos: Photo[] = useMemo(
+        () =>
+            Object.values(imageModules)
+                .map((src) => ({ src: src as string }))
+                .sort(() => Math.random() - 0.5),
+        []
+    );
 
     return (
         <div className="relative bg-gradient-to-br from-pink-50 via-rose-50 to-red-50 dark:from-slate-900 dark:via-pink-900/20 dark:to-slate-900 h-screen overflow-hidden flex flex-col">
-            {/* Floating Hearts Background */}
+            {/* Floating Hearts & Cats Background - Xen kẽ */}
             <div className="fixed inset-0 pointer-events-none overflow-hidden">
-                {Array.from({ length: 10 }).map((_, i) => (
-                    <Heart
-                        key={i}
-                        className="absolute text-pink-300/40 dark:text-pink-500/20 animate-float-up"
-                        style={{
-                            left: `${Math.random() * 100}%`,
-                            animationDelay: `${Math.random() * 5}s`,
-                            animationDuration: `${8 + Math.random() * 4}s`,
-                            width: `${20 + Math.random() * 20}px`,
-                            height: `${20 + Math.random() * 20}px`
-                        }}
-                        fill="currentColor"
-                    />
-                ))}
+                {Array.from({ length: 20 }).map((_, i) => {
+                    const isCat = i % 2 === 0; // Xen kẽ: chẵn là mèo, lẻ là trái tim
+                    const Icon = isCat ? Cat : Heart;
+                    return (
+                        <Icon
+                            key={i}
+                            className={`absolute animate-float-up ${
+                                isCat 
+                                    ? 'text-orange-300/40 dark:text-orange-500/20' 
+                                    : 'text-pink-300/40 dark:text-pink-500/20'
+                            }`}
+                            style={{
+                                left: `${Math.random() * 100}%`,
+                                animationDelay: `${Math.random() * 5}s`,
+                                animationDuration: `${8 + Math.random() * 4}s`,
+                                width: `${20 + Math.random() * 20}px`,
+                                height: `${20 + Math.random() * 20}px`
+                            }}
+                            fill="currentColor"
+                        />
+                    );
+                })}
             </div>
 
             {/* Header */}
